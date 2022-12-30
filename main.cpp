@@ -157,7 +157,7 @@ void playGame(vector<vector<char>> &board) {
         printBoard(board);
 
         isOver = evaluateBoard(board, 0);
-        if(isOver) break;
+        if(isOver || !isMovePossible(board)) break;
 
         
         cout << "Vi ste na potezu!" << endl;
@@ -179,7 +179,7 @@ void playGame(vector<vector<char>> &board) {
         printBoard(board);
 
         isOver = evaluateBoard(board, 0);
-        if(isOver) break;
+        if(isOver || !isMovePossible(board)) break;
     }
 }
 
