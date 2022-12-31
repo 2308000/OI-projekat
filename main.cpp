@@ -6,7 +6,7 @@ using Move = pair<int, int>;
 const char MAXIMIZER = 'X';
 const char MINIMIZER = 'O';
 const char EMPTY = '_';
-const char INF = 100;
+const int INF = 100;
 
 // Vraca false ukoliko je tabla popunjena, u suprotnom vraca true
 bool isMovePossible(vector<vector<char>> board)
@@ -67,7 +67,7 @@ int evaluateBoard(vector<vector<char>> board, int depth)
    Tako na primjer ukoliko postoje 2 poteza koja dovode do pobjede do racunara,
    u ovom slucaju maksimizera, recimo potez A i potez B. Neka A dovodi do pobjede u 2
    poteza a B u tri poteza. Tada ce A imati vrijednost INF-2 dok će B imati vrijednost
-   INF-3 i maksimum ce uvijek biti potez 2. */
+   INF-3 i maksimum ce uvijek biti potez A. */
 int minimax(vector<vector<char>> board, int depth, bool isMaximizersMove)
 {
     int currentScore = evaluateBoard(board, depth);
@@ -150,7 +150,7 @@ void playGame(vector<vector<char>> &board) {
     int isOver = 0;
     bool firstMove = true;
 
-    while(isMovePossible && !isOver) {
+    while(true) {
         Move bestMove = (firstMove) ? make_pair(0, 0) : findBestMove(board);
         firstMove = false;
 
@@ -161,7 +161,6 @@ void playGame(vector<vector<char>> &board) {
         isOver = evaluateBoard(board, 0);
         if(isOver || !isMovePossible(board)) break;
 
-        
         cout << "Vi ste na potezu!" << endl;
         do {
             cout << "Unesite koordinate za potez (0-indexed):" << endl;
