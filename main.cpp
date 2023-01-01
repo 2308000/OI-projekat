@@ -241,13 +241,10 @@ int main()
                                   { '_', '_', '_' }};
     
     /* Ko igra prvi se bira nasumicno, ukoliko je pseudorandom generisani broj
-    u opsegu [0 - 9] veci od 5 onda racunar igra prvi, ukoliko je manji od 5 onda 
-    korisnik igra prvi, odnsono sansa 50/50*/
+       0 ili 1, ukoliko se generise 1, korisnik igra prvi, ukoliko je 0, racunar igra prvi. */
     srand(time(0));
-    int whoGoesFirst = rand() % 10;
-    
     startGame(board);
-    (whoGoesFirst > 4) ? playGameX(board) : playGameO(board);
+    (rand() % 2) ? playGameX(board) : playGameO(board);
     printResult(board);
 
     return 0;
