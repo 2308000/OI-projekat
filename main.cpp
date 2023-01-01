@@ -3,8 +3,8 @@ using namespace std;
 
 // Move su koordinate optimalnog poteza
 using Move = pair<int, int>;
-const char MAXIMIZER = 'X';
-const char MINIMIZER = 'O';
+const char MAXIMIZER = 'O';
+const char MINIMIZER = 'X';
 const char EMPTY = '_';
 const int INF = 100;
 
@@ -19,7 +19,7 @@ bool isMovePossible(vector<vector<char>> board)
 }
 
 // Vraca INF/-INF ukoliko je pobjednik X/O, u suprotnom vraca 0
-int evaluateBoard(vector<vector<char>> board, int depth)
+int evaluateBoard(vector<vector<char>> board)
 {
     // 3 u redu
     for(int i = 0; i < board.size(); i++) {
@@ -57,7 +57,7 @@ int evaluateBoard(vector<vector<char>> board, int depth)
     return 0;
 }
  
-/* Radi na principu backtracking odnosno isprobava sve moguće kombinacije
+/* Radi na principu backtrackinga odnosno isprobava sve moguće kombinacije
    i na kraju bira optimalan potez za trenutnog igraca. Algoritam je
    ponderisan dubinom odnosno, ukoliko postoje dva ili vise poteza koji dovode do
    optimalnog rjesenja, birace se onaj potez koji dovodi do rjesenja u 
@@ -70,7 +70,7 @@ int evaluateBoard(vector<vector<char>> board, int depth)
    INF-3 i maksimum ce uvijek biti potez A. */
 int minimax(vector<vector<char>> board, int depth, bool isMaximizersMove)
 {
-    int currentScore = evaluateBoard(board, depth);
+    int currentScore = evaluateBoard(board);
 
     if(currentScore == INF || currentScore == -INF) return currentScore;
     if (!isMovePossible(board)) return 0;
@@ -98,7 +98,7 @@ int minimax(vector<vector<char>> board, int depth, bool isMaximizersMove)
     return bestMoveValue;
 }
  
-// Vraca koordinate optimalnog poteza za X
+// Vraca koordinate optimalnog poteza za racunar
 Move findBestMove(vector<vector<char>> &board)
 {
     int bestMoveValue = -INF;
@@ -139,56 +139,98 @@ void printBoard(vector<vector<char>> &board) {
 }
 
 void startGame(vector<vector<char>> &board) {
-    cout << "Vi ste O." << endl;
-    cout << "---------" << endl << endl;
+    cout << "Vi ste X." << endl;
+    cout << "---------" << endl;
     printBoard(board);
-    cout << "Igra pocinje!" << endl;
+    cout << endl << "Igra pocinje!" << endl;
+    cout << "-------------" << endl << endl;
 }
 
-void playGame(vector<vector<char>> &board) {
-    int x, y;
-    int isOver = 0;
-    bool firstMove = true;
+void playGameX(vector<vector<char>> &board) {
+    int row, col;
 
     while(true) {
-        Move bestMove = (firstMove) ? make_pair(0, 0) : findBestMove(board);
-        firstMove = false;
-
-        cout << "Racunar igra potez (" << bestMove.first << ", " << bestMove.second << ")" << endl;
-        board[bestMove.first][bestMove.second] = 'X';
-        printBoard(board);
-
-        isOver = evaluateBoard(board, 0);
-        if(isOver || !isMovePossible(board)) break;
-
-        cout << "Vi ste na potezu!" << endl;
+        cout << endl << "Vi ste na potezu!" << endl;
         do {
             cout << "Unesite koordinate za potez (0-indexed):" << endl;
             cout << "Red: ";
-            cin >> x;
+            cin >> row;
             cout << "Kolona: ";
-            cin >> y;
+            cin >> col;
 
-            if((x < 0 || x >= board.size() || y < 0 || y >= board.size()) || board[x][y] != EMPTY) {
+            if(row < 0 || row >= board.size() || col < 0 || col >= board.size()) {
                 cout << "Potez koji ste odigrali nije validan!" << endl;
-                cout << "Ponovite potez!" << endl;
+                cout << "Tabla je velicine 3x3, dakle indeksi redova i kolona su [0, 1, 2]" << endl;
+                cout << "Ponovite unos!" << endl;
+            } else if(board[row][col] != EMPTY) {
+                cout << "Potez koji ste odigrali nije validan!" << endl;
+                cout << "Polje na koordinatama (" << row << ", " << col << ") je vec zauzeto!" << endl;
+                cout << "Ponovite unos!" << endl;
             }
-        } while ((x < 0 || x >= board.size() || y < 0 || y >= board.size()) || board[x][y] != EMPTY);
+        } while ((row < 0 || row >= board.size() || col < 0 || col >= board.size()) || board[row][col] != EMPTY);
 
-        cout << "Odigrali ste potez (" << x << ", " << y << ")" << endl;
-        board[x][y] = 'O';
+        cout << "Odigrali ste potez (" << row << ", " << col << ")" << endl;
+        board[row][col] = MINIMIZER;
         printBoard(board);
+        // evaluateBoard je ne-nula samo ukoliko je neko pobijedio
+        if(evaluateBoard(board) || !isMovePossible(board)) break;
 
-        isOver = evaluateBoard(board, 0);
-        if(isOver || !isMovePossible(board)) break;
+        cout << endl << "Racunar je na potezu!" << endl;
+        Move bestMove = findBestMove(board);
+        cout << "Racunar igra potez (" << bestMove.first << ", " << bestMove.second << ")" << endl;
+        board[bestMove.first][bestMove.second] = MAXIMIZER;
+        printBoard(board);
+        // evaluateBoard je ne-nula samo ukoliko je neko pobijedio
+        if(evaluateBoard(board) || !isMovePossible(board)) break;
+    }
+}
+
+void playGameO(vector<vector<char>> &board) {
+    int row, col;
+    bool firstMove = true;
+
+    while(true) {
+        cout << endl << "Racunar je na potezu" << endl;
+        Move bestMove = (firstMove) ? make_pair(0, 0) : findBestMove(board);
+        firstMove = false;
+        cout << "Racunar igra potez (" << bestMove.first << ", " << bestMove.second << ")" << endl;
+        board[bestMove.first][bestMove.second] = MAXIMIZER;
+        printBoard(board);
+        // evaluateBoard je ne-nula samo ukoliko je neko pobijedio
+        if(evaluateBoard(board) || !isMovePossible(board)) break;
+
+        cout << endl << "Vi ste na potezu!" << endl;
+        do {
+            cout << "Unesite koordinate za potez (0-indexed):" << endl;
+            cout << "Red: ";
+            cin >> row;
+            cout << "Kolona: ";
+            cin >> col;
+
+            if(row < 0 || row >= board.size() || col < 0 || col >= board.size()) {
+                cout << "Potez koji ste odigrali nije validan!" << endl;
+                cout << "Tabla je velicine 3x3, dakle indeksi redova i kolona su [0, 1, 2]" << endl;
+                cout << "Ponovite unos!" << endl;
+            } else if(board[row][col] != EMPTY) {
+                cout << "Potez koji ste odigrali nije validan!" << endl;
+                cout << "Polje na koordinatama (" << row << ", " << col << ") je vec zauzeto!" << endl;
+                cout << "Ponovite unos!" << endl;
+            }
+        } while ((row < 0 || row >= board.size() || col < 0 || col >= board.size()) || board[row][col] != EMPTY);
+
+        cout << "Odigrali ste potez (" << row << ", " << col << ")" << endl;
+        board[row][col] = MINIMIZER;
+        printBoard(board);
+        // evaluateBoard je ne-nula samo ukoliko je neko pobijedio
+        if(evaluateBoard(board) || !isMovePossible(board)) break;
     }
 }
 
 void printResult(vector<vector<char>> board) {
     cout << "Igra je gotova!" << endl;
     
-    if(evaluateBoard(board, 0) == INF) cout << "Racunar je pobijedio!" << endl;
-    else if(evaluateBoard(board, 0) == -INF) cout << "Pobijedili ste!" << endl;
+    if(evaluateBoard(board) == INF) cout << "Racunar je pobijedio!" << endl;
+    else if(evaluateBoard(board) == -INF) cout << "Pobijedili ste!" << endl;
     else cout << "Igra je odigrana nerijeseno!" << endl;
 }
 
@@ -197,9 +239,15 @@ int main()
     vector<vector<char>> board = {{ '_', '_', '_' },
                                   { '_', '_', '_' },
                                   { '_', '_', '_' }};
-     
+    
+    /* Ko igra prvi se bira nasumicno, ukoliko je pseudorandom generisani broj
+    u opsegu [0 - 9] veci od 5 onda racunar igra prvi, ukoliko je manji od 5 onda 
+    korisnik igra prvi, odnsono sansa 50/50*/
+    srand(time(0));
+    int whoGoesFirst = rand() % 10;
+    
     startGame(board);
-    playGame(board);
+    (whoGoesFirst > 4) ? playGameX(board) : playGameO(board);
     printResult(board);
 
     return 0;
