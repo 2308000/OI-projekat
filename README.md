@@ -14,12 +14,10 @@ Vrijednost table govori ko trenutno vodi. Tako ukoliko korisnik pobjedjuje tabla
 
 Funkcija minimax racuna optimalne poteze i za korisnika i za racunar. 
 Princip rada je sledeci: tabla prije svakog poteza ima neku evaluiranu vrijednost. 
-Recimo da prvi potez pravi racunar, odnosno maximizer, on ce odabrati potez koji ce tabli da dodijeli maksimalnu vrijednost.
-Sada algoritam racuna optimalan potez za korisnika, odnosno minimizera, od svih mogucih poteza bira potez koji ce da minimizuje
-vrijednost table, odnsno dodijeljuje joj najmanju vrijednost iz skupa svih trenutno mogucih vrijednosti. 
-Sada ponovo maksimizer bira potez koji ce maksimizovati vrijednost table i tako dok se igra ne zavrsi.
-Dakle, maximizer uvijek bira poteze koji ce tabli dati najvecu vrijednost od svih mogucih vrijednosti, minimizer
-bira poteze koji ce da tabli dodijeli minimalnu vrijednost od svih mogucih vrijednosti (igra optimalno za oba igraca).
+Recimo da prvi potez funkcija pravi za racunar, odnosno maximizera, potez koji ce se odabrati ce tabli da dodijeli maksimalnu vrijednost. Sada funkcija racuna optimalan potez za korisnika, odnosno minimizera, od svih mogucih poteza se bira potez koji ce da minimizuje vrijednost table, odnsno dodjeljuje joj najmanju vrijednost iz skupa svih trenutno mogucih vrijednosti. 
+Sada ponovo za maksimizera bira potez koji ce maksimizovati vrijednost table i tako bira poteze dok se igra ne zavrsi.
+Dakle, za maximizera se uvijek biraju potezi koji ce tabli dati najvecu vrijednost od svih mogucih vrijednosti, za minimizera
+se biraju potezi koji ce da tabli dodijeli minimalnu vrijednost od svih mogucih vrijednosti (igra optimalno za oba igraca).
 
 Posto moze doci do situacije da vise poteza dovodi do pobjede maximizera ili minimizera da bi se osiguralo da se od svih
 takvih poteza bira optimum racuna se za svaki potez dubina, odnosno broj koraka koji dovodi do pobjede ili nerijsenog rezultata ukoliko pobjeda onog ko je trenutno na potezu nije moguca. 
