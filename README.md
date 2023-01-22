@@ -55,3 +55,67 @@ Na kraju racunar se fiksira na potez **(2, 2)**. Kako ovo dovodi do pobjede bez 
 Citav proces se detaljno moze pogledati na slikama ispod:<br/><br/>
 ![Trazenje optimalnog poteza za racunar 1. deo](ttt1.jpg)
 ![Trazenje optimalnog poteza za racunar 2. deo](ttt2.jpg)
+
+
+## Simplex Algoritam
+
+###### ULAZNI PARAMETRI:
+**N** - broj promenljivih<br/>
+**M** - broj ogranicenja<br/>
+Matrica *A* dimenzija **NxM** kroz koju su programu saljemo ogranicnja<br/>
+Vektor *B* duzine **M** kroz koju programu saljemo slobodne promenljive<br/>
+Vektor *C* duzine **N** kroz koji programu saljemo koeficijente u kriterijumu optimalnosti<br/>
+Tip kroz koji govorimo programu da li trazimo minimum ili maksimum<br/>
+
+###### TRANSFORMACIJA ULAZNIH PARAMETARA:
+
+*Pod pretpostavkom da su nam sva ogranicenja tipa nejednakosti, transformisemo matricu **A** i vektor **C**:*<br/>
+Kreiramo jedinicnu matricu dimenzija **NxN** i spajamo je sa matricom **A**, na taj nacin smo svakom ogranicenju dodali dodatnu promenljivu i od nje napravili ogranicenje tipa jednakosti. Kako bismo ispostovali dimenzije, moramo vektor **C** produziti za **N** nula.
+
+###### BIRANJE BAZNOG RESENJA:
+
+Bazno resenje mora biti **M** dimenzije i inicijalno bazno resenje nam je prvih **M** promenljivih, a nakon njega redom proveravmo sve moguce **M**-torke promenljivih dok ne nadjemo odgovarajuce bazno resenje. <br/><br/>
+
+*Provera baznog resenja:*<br\>
+Iz matrice **A** uzimamo vrste koje odgovaraju indeksima iz baznog resenja koje proveravamo i smestamo ih u matricu **BR** koja je dimenzija **MxM**.<br/>
+Matricu **BR** pre svega transponujemo, a zatim ako je moguce i invertujemo. (U slucaju da invertovanje nije moguce, bazno resenje automatski nije dobro) 
+Matricu **BR** zatim mnozimo sa vektorom **B**. Dobijeni vektor proveravamo da li ima sve nenegativne vrednosti, ako ima, bazno resenje se uzima kao dobro.
+
+##### BIRANJE BOLJEG RESENJA:
+
+*Provera da li je trenutno resenje najbolje resenje:*<br/><br/>
+
+Pre svega kreiramo nove matrice i vektore:<br/>
+**Cb** - vektor duzine **M** i predsvalja deo pocetnog vektora **C** za promenljive koje se nalaze u trenutnom resenju<br/>
+**Cn** - vektor duzine **N** i predsvalja ostatak vekotora **C** koji nije smesten u vektor **Cb**<br/>
+**Ab** - matrica dimenzija **MxM** i predsvalja deo pocetne matrice **A** za promenljive koje se nalaze u trenutnom resenju<br/>
+**An** - matrica dimenzija **NxM** i predsvalja ostatak matrice **A** koji nije smesten u matricu **Ab**<br/><br/>
+
+Transponovani vektor **Cb** mnozimo sa invertovanom matricom **Ab**, a njihov proizvod mnozimo sa transponovanom matricom **An**. Od dobijenog vektora oduzimamo vektor **Cn**.
+Ako dobijeni vektor ima sve negativne vrednosti i tip kriterijuma optimalnosti je minimum, trenutno resenje je najbolje i nema potrebe da nastavljamo postupak trazenja boljeg resenja. U slucaju da je kriterijum optimalnosti maksimum, dobijeni vektor mora da sadrzi sve pozitivne vrednosti.<br/><br/>
+
+*Trazenje najpogodnije promenljive koja nije u trenutnom resenju:*<br/><br/>
+
+Kreiramo matricu **Ab** i vektor **Cb** kao u prethodnom koraku.<br/>
+Uzimamo vrednost **Ci** koja predstavlja koeficijent iz kriterijuma optimalnosti za neku **i**-tu promenljivu koja nije u trenutnom resenju.<br/>
+Uzimamo vektor **Ai** koji predstavlja koeficijente iz ogranicenja za neku **i**-tu promenljivu koja nije u trenutnom resenju.<br/>
+Trazimo maksimalnu vrednost za tip kriterijuma optimalnosti minimum, odnosno minimalnu za tip kriterijuma optimalnosti maksimum, koju dobijamo tako sto pomnozimo transponovani vektor **Cb** sa inverznom matricom **Ab**, ciji prozivod zatim mnozimo sa vektorom **Ai** i od dobijene vrednosti oduzimamo **Ci**.<br/>
+Za onu promenljivu za koju pronadjemo minimum ili maksimum, ona postaje najpogodnija promenljiva koja nije u trenutnom resenju.<br/><br/>
+
+*Trazenje najgore promenljive koja je u trenutnom resenju:*<br/><br/>
+
+Kreiramo matricu **Ab** kao i u prethodnom koraku.<br/>
+Kreiramo vektor **Ank** koji predstavlja vrstu iz pocetne matrice **A** koja odgovara promenljivoj koju smo kao najpogodniju nasli u prethodnom koraku.
+Racunamo vektor **AbB** koji se dobija kao proizvod invertovane matrice **Ab** i pocetnog vektora **B**.<br/>
+Racunamo vektor **y** koji se dobija kao proizvod invertovane matrice **Ab** i vektora **Ank**.<br/>
+Trazimo minimumalnu pozitivnu vrednost, za svaku promenljivu iz trenutnog resenja, koja se racuna kao **AbB/y**.
+U slucaju da su sve vrenosti negativne nas optimum ce predstavljati beskonacnost, u suprotnom minimalna pozitivna vrednost je najgora promenljiva u trenutnom resenju.
+
+*Najpogodniju promenljivu prebacujemo u trenutno resenje, a najgoru izbacujemo i vracamo se na korak gde proveravmo da li nam je novodobijeno resenje najbolje.*
+
+
+
+
+
+
+
