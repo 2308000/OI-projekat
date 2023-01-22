@@ -41,10 +41,10 @@ Najbolji potezi za racunar se racunaju u funkciji findBestMove koja vraca koordi
 vrijednoscu funkcije evaluacije. 
 
 ###### PRIMER KORAKA:
-Trenutni izgled table je 
-    O X _
-    O O X
-    X _ _
+Trenutni izgled table je <br/>
+    O X _<br/>
+    O O X<br/>
+    X _ _<br/>
 Racunar ce pokusavati poteze redom za svako moguce polje, prvo ce fiksirati svoj potez na koordinati **(0, 2)**.
 Zatim će za korisnika probati polje **(2, 1)** i za sebe ostaviti polje **(2, 2)** što dovodi do remija, nakon toga ce
 korisniku da da polje **(2, 2)** a za sebe ostaviti **(2, 1)** sto ponovo dovodi do remija. 
@@ -52,6 +52,6 @@ U narednom koraku se fiksira na narednu slobodno koordinatu **(2, 1)**, ponovo d
 i ostavi za sebe **(2, 2)**. Ovo bi dovelo do pobjede racunara pa ova taktika ima vrijednost **99** jer dovodi do pobjede racunara
 nakon jednog poteza koji igra korisnik. Potom korisniku dodijeli potez **(2, 2)** a za sebe ostavi potez **(2, 1)**. Ovo dovodi do remija nakon jednog poteza racunara pa ima vrijednost **-1**. Korisnik je minimizer pa od te dve bira **-1**. 
 Na kraju racunar se fiksira na potez **(2, 2)**. Kako ovo dovodi do pobjede bez da korisnik igra ovaj potez ima vrijednost **100**, kako je ovo potez sa najvecom vrijednoscu a racunar je maximizer on se odlucuje za njega.
-Citav proces se detaljno moze pogledati na slikama ispod.
+Citav proces se detaljno moze pogledati na slikama ispod:<br/><br/>
 ![Trazenje optimalnog poteza za racunar 1. deo](ttt1.jpg)
 ![Trazenje optimalnog poteza za racunar 2. deo](ttt2.jpg)
