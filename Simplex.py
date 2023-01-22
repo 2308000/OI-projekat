@@ -6,20 +6,16 @@ Created on Sat Dec 31 21:08:52 2022
 """
 
 import numpy as np
-import random
 import time
 
-#F-JA ZA PROVERU VALIDNOSTI BAZNOG RESENJA
 def CheckBR(BRidx):
     BR = A[BRidx]
     BR = np.transpose(BR)
-    #print("PROVERA ZA:\n", BR)
     if np.linalg.matrix_rank(BR) != M:
         return False, np.array([])
     if np.linalg.det(BR) == 0:
         return False, np.array([])
     BR = np.linalg.inv(BR)
-    #print("Inverzna:\n", BR)
     temp = np.dot(BR, B)
     for x in temp:
         if x < 0:
@@ -32,8 +28,7 @@ def FindNextResult(TR):
             TR.append(i)
         return TR
     for i in range(M-1,-1,-1):
-        #print("INDEX:", i, "\tVALUE:",TR[i], "\tCAP:", N+i, "\tREACHED CAP:", TR[i] == N + i)
-        if(TR[i] == N + i):#2*M-(M-i)
+        if(TR[i] == N + i):
             continue
         else:
             TR[i] += 1
@@ -46,14 +41,6 @@ def IsOptimum(BRidx, NBRidx):
     Cn = C[NBRidx]
     Ab = A[BRidx]
     An = A[NBRidx]
-    # print("Cb:", Cb.shape)
-    # print(Cb)
-    # print("Cn:", Cn.shape)
-    # print(Cn)
-    # print("Ab:", Ab.shape)
-    # print(Ab)
-    # print("An:", An.shape)
-    # print(An)
     Temp = np.dot(np.dot(np.transpose(Cb),np.linalg.inv(Ab)), np.transpose(An))
     Temp -= Cn
     for t in Temp:
@@ -92,7 +79,7 @@ def FindWorstBaseVariable(BRidx, NBRidx, k):
         if y[i] == 0:
             continue
         Temp = AbB[i]/y[i]
-        if Temp < 0: # PROVERI SA ANJOM
+        if Temp < 0:
             NCounter += 1
             continue
         RetVal = min(Temp, RetVal)
@@ -102,70 +89,51 @@ def FindWorstBaseVariable(BRidx, NBRidx, k):
         return -2, 0
     return RVId, RetVal
         
+Z = 0
+while Z < 1 or Z > 4:
+    Z = int(input("Izaberite zadatak (1-4):"))
+
+#ZADATAK 1
+A = np.array([[1, 0, 0, 3, 0, 0, 1, 0, 0], 
+              [0, 1, 0, 0, 3, 0, 1, 0, 0], 
+              [0, 0, 1, 0, 0, 3, 1, 0, 0], 
+              [1, 0, 0, 2, 0, 0, 0, 1, 0],
+              [0, 1, 0, 0, 2, 0, 0, 1, 0],
+              [0, 0, 1, 0, 0, 2, 0, 1, 0],
+              [1, 0, 0, 1, 0, 0, 0, 0, 1],
+              [0, 1, 0, 0, 1, 0, 0, 0, 1],
+              [0, 0, 1, 0, 0, 1, 0, 0, 1]])
+
+B = np.array([400, 600, 300, 600, 800, 375, 600, 500, 325])
+
+C = np.array([1000, 1000, 1000, 750, 750, 750, 250, 250, 250])
+
+tip = "max"
+
+
+if Z == 2:
+    #PRIMER 2
+    A = np.array([[1,  1],
+                  [1, -1]])
+    B = np.array([4, 6])
+    C = np.array([-2, 3])
+    tip = "min"
+elif Z == 3:
+    #PRIMER 3
+    A = np.array([[8, 4, 2, 0],
+                  [6, 2, 1.5, 0],
+                  [1, 1.5, 0.5, 1]])
     
-
-#BROJ OGRANICENJA I PROMENLJIVIH:
-#N = 3
-#M = 5
-
-#GENERISANJE OGRANICENJA I KRITERIJUMA OPTIMALNOSTI
-#
-#A = np.array([[random.randint(0, 5) for i in range(0, N)] for i in range(0, M)])
-#B = np.array([random.randint(10, 50) for i in range(0, M)])
-#C = np.array([random.randint(10, 100) for i in range(0, N)])
-#
-#tip = "min" if random.randint(0, 1) else "max"
-
-#PRIMER 1
-# A = np.array([[1, 0, 0, 3, 0, 0, 1, 0, 0], 
-#               [0, 1, 0, 0, 3, 0, 1, 0, 0], 
-#               [0, 0, 1, 0, 0, 3, 1, 0, 0], 
-#               [1, 0, 0, 2, 0, 0, 0, 1, 0],
-#               [0, 1, 0, 0, 2, 0, 0, 1, 0],
-#               [0, 0, 1, 0, 0, 2, 0, 1, 0],
-#               [1, 0, 0, 1, 0, 0, 0, 0, 1],
-#               [0, 1, 0, 0, 1, 0, 0, 0, 1],
-#               [0, 0, 1, 0, 0, 1, 0, 0, 1]])
-
-# B = np.array([400, 600, 300, 600, 800, 375, 600, 500, 325])
-
-# C = np.array([1000, 1000, 1000, 750, 750, 750, 250, 250, 250])
-
-#PRIMER 2
-# A = np.array([[1,0], [1,1], [1,0], [0,1]])
-# B = np.array([6, 3])
-
-#PRIMER 3
-
-# A = np.array([[1,  1],
-#               [1, -1]])
-
-# B = np.array([4, 6])
-
-# C = np.array([-2, 3])
-
-# tip = "min"
-
-#PRIMER 4
-A = np.array([[8, 4, 2, 0],
-              [6, 2, 1.5, 0],
-              [1, 1.5, 0.5, 1]])
-
-B = np.array([48, 20, 8, 5])
-
-C = np.array([60, 30, 20])
-
-tip = "max"
-
-#PRIMER 5
-A = np.array([[-3, 2, 1],
-              [2, -4, 1]])
-
-B = np.array([2, 3, 6])
-
-C = np.array([2, -1])
-
-tip = "max"
+    B = np.array([48, 20, 8, 5])
+    C = np.array([60, 30, 20])
+    tip = "max"
+elif Z == 4:
+    #PRIMER 4
+    A = np.array([[-3, 2, 1],
+                  [2, -4, 1]])
+    B = np.array([2, 3, 6])
+    C = np.array([2, -1])
+    tip = "max"
 
 
 #ODREDJIVANJE BROJA OGRANICENJA I PROMENLJIVIH
@@ -242,12 +210,12 @@ while(True):
 
 if WorstBVId != -2:
     for i in range(0,M):
-        print("x" + str(BaseResult[i]), "=", Xb[i])
+        print("x" + str(BaseResult[i]), "=", round(Xb[i],2))
     FinalResult = 0
     for i in BaseResult:
         FinalResult += Xb[BaseResult.index(i)]*C[i]
         
-    print("OPTIMUM: ", FinalResult)
+    print("OPTIMUM: ", round(FinalResult,2))
 else:
     print("OPTIMUM: INFINITY")
 
