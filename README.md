@@ -63,7 +63,7 @@ Citav proces se detaljno moze pogledati na slikama ispod:<br/><br/>
 **N** - broj promenljivih<br/>
 **M** - broj ogranicenja<br/>
 Matrica *A* dimenzija **NxM** kroz koju su programu saljemo ogranicnja<br/>
-Vektor *B* duzine **M** kroz koju programu saljemo slobodne promenljive<br/>
+Vektor *B* duzine **M** kroz koji programu saljemo slobodne promenljive<br/>
 Vektor *C* duzine **N** kroz koji programu saljemo koeficijente u kriterijumu optimalnosti<br/>
 Tip kroz koji govorimo programu da li trazimo minimum ili maksimum<br/>
 
@@ -79,17 +79,17 @@ Bazno resenje mora biti **M** dimenzije i inicijalno bazno resenje nam je prvih 
 *Provera baznog resenja:*<br\>
 Iz matrice **A** uzimamo vrste koje odgovaraju indeksima iz baznog resenja koje proveravamo i smestamo ih u matricu **BR** koja je dimenzija **MxM**.<br/>
 Matricu **BR** pre svega transponujemo, a zatim ako je moguce i invertujemo. (U slucaju da invertovanje nije moguce, bazno resenje automatski nije dobro) 
-Matricu **BR** zatim mnozimo sa vektorom **B**. Dobijeni vektor proveravamo da li ima sve nenegativne vrednosti, ako ima, bazno resenje se uzima kao dobro.
+Matricu **BR** zatim mnozimo sa vektorom **B**. Za dobijeni vektor proveravamo da li ima sve nenegativne vrednosti, ako ima, bazno resenje se uzima kao dobro.
 
 ##### BIRANJE BOLJEG RESENJA:
 
 *Provera da li je trenutno resenje najbolje resenje:*<br/><br/>
 
 Pre svega kreiramo nove matrice i vektore:<br/>
-**Cb** - vektor duzine **M** i predsvalja deo pocetnog vektora **C** za promenljive koje se nalaze u trenutnom resenju<br/>
-**Cn** - vektor duzine **N** i predsvalja ostatak vekotora **C** koji nije smesten u vektor **Cb**<br/>
-**Ab** - matrica dimenzija **MxM** i predsvalja deo pocetne matrice **A** za promenljive koje se nalaze u trenutnom resenju<br/>
-**An** - matrica dimenzija **NxM** i predsvalja ostatak matrice **A** koji nije smesten u matricu **Ab**<br/><br/>
+**Cb** - vektor duzine **M** i predstavlja deo pocetnog vektora **C** za promenljive koje se nalaze u trenutnom resenju<br/>
+**Cn** - vektor duzine **N** i predstavlja ostatak vekotora **C** koji nije smesten u vektor **Cb**<br/>
+**Ab** - matrica dimenzija **MxM** i predstavlja deo pocetne matrice **A** za promenljive koje se nalaze u trenutnom resenju<br/>
+**An** - matrica dimenzija **NxM** i predstavlja ostatak matrice **A** koji nije smesten u matricu **Ab**<br/><br/>
 
 Transponovani vektor **Cb** mnozimo sa invertovanom matricom **Ab**, a njihov proizvod mnozimo sa transponovanom matricom **An**. Od dobijenog vektora oduzimamo vektor **Cn**.
 Ako dobijeni vektor ima sve negativne vrednosti i tip kriterijuma optimalnosti je minimum, trenutno resenje je najbolje i nema potrebe da nastavljamo postupak trazenja boljeg resenja. U slucaju da je kriterijum optimalnosti maksimum, dobijeni vektor mora da sadrzi sve pozitivne vrednosti.<br/><br/>
