@@ -8,18 +8,18 @@ Pretpostavka je da i protivnik takodje igra optimalno, to jest bira poteze najbo
 ###### BACKTRACKING:
 Tabla u svakom trenutku ima sebi dodijeljenu vrijednost koja se racuna putem funkcije evaluateBoard (funkcijom evaluacije).
 Tacnije, za svaki moguci potez koji algoritam 'napravi' tabli se dodjeljuje odredjena vrijednost, zatim se potez 'ponisti'.
-Potezi se 'prave i ponistavaju' sve dok se ne nadje potez koji tabli daje optimalnu vrijednost za trenutnog 
+Potezi se 'prave i ponistavaju' sve dok se tabla ne popuni ili se ne nadje potez koji tabli daje optimalnu vrijednost za trenutnog 
 igraca, odnosno maksimalnu za maximizera, minimalnu za minimizera, i zatim se taj potez 'definitivno pravi'. 
 Posto je broj mogucih poteza relativno mali, mozemo sebi priustiti da prije igranja svakog poteza 'probamo' svaki legalan potez
 bez da se predugo ceka na dobijanje 'definitivnog poteza'. 
-Vrijednost table govori ko trenutno vodi. Tako ukoliko korisnik pobjedjuje tabla ce imati negativnu vrijednost, ukoliko dobija racunar, tabla ce imati neku pozitivnu vrijednost.
 
 Funkcija minimax racuna optimalne poteze i za korisnika i za racunar. 
 
 ###### MINMAX ALGORITAM: 
-Tabla prije svakog poteza ima neku evaluiranu vrijednost. 
+Evaluira se vrijednost table, ukoliko partija nije gotova trazi se optimalan potez.
 Recimo da prvi potez funkcija pravi za racunar, odnosno maximizera, potez koji ce se odabrati ce tabli da dodijeli maksimalnu vrijednost. Sada funkcija racuna optimalan potez za korisnika, odnosno minimizera, od svih mogucih poteza se bira potez koji ce da minimizuje vrijednost table, odnsno dodjeljuje joj najmanju vrijednost iz skupa svih trenutno mogucih vrijednosti. 
-Sada ponovo za maksimizera bira potez koji ce maksimizovati vrijednost table i tako bira poteze dok se igra ne zavrsi.
+Sada ponovo za maksimizera bira potez koji ce maksimizovati vrijednost table i tako bira poteze dok ne isproba sve moguce kombinacije poteza.
+Od svih mogucih poteza se bira onaj koji je optimalan.
 Dakle, za maximizera se uvijek biraju potezi koji ce tabli dati najvecu vrijednost od svih mogucih vrijednosti, za minimizera
 se biraju potezi koji ce da tabli dodijeli minimalnu vrijednost od svih mogucih vrijednosti (igra optimalno za oba igraca).
 
